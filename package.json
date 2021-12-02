@@ -1,0 +1,17 @@
+{
+  "name": "movies-explorer-api",
+  "version": "1.0.0",
+  "description": "Movies Explorer Backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomat1990yandex/movies-explorer-api.git"
+  },
+  "author": "Dmitriy Orlov",
+  "license": "ISC"
+}
+
