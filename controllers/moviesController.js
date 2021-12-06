@@ -40,11 +40,10 @@ const deleteMovie = (req, res, next) => {
     .orFail(() => new NotFoundError('Фильм не найден'))
     .then((movie) => {
       if (!movie.owner.equals(owner)) {
-        next(new ForbiddenError('Нет прав на удаление этого фильма'));
-      } else {
-        Movie.deleteOne(movie)
+        return Movie.deleteOne(movie)
           .then(() => res.send({ message: `Фильм "${movie.nameRU}(${movie.nameEN}),${movie.year}" удалён` }));
       }
+      throw new ForbiddenError('Нет прав на удаление этого фильма');
     })
     .catch((err) => {
       if (err.kind === 'ObjectId') {

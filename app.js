@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
+const DB_ADDRESS = require('./utils/constants');
 const limiter = require('./utils/rateLimiter');
 const { apiLogger, errLogger } = require('./middlewares/logger');
 const handlerError = require('./errors/handlerError');
@@ -18,7 +19,7 @@ app.use(helmet());
 app.use(cors());
 
 mongoose.connect(
-  'mongodb://localhost:27017/moviesdb',
+  DB_ADDRESS,
   async (err) => {
     if (err) throw err;
     console.log('connected to db');

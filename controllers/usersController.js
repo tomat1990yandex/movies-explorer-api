@@ -1,9 +1,7 @@
 const { NODE_ENV, JWT_SECRET_KEY } = process.env;
-const MONGO_DUPLICATE_ERROR_CODE = 11000;
-const SALT_ROUNDS = 10;
-
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const { MONGO_DUPLICATE_ERROR_CODE, SALT_ROUNDS } = require('../utils/constants');
 const User = require('../models/user');
 
 const NotFoundError = require('../errors/notFoundError');
@@ -57,17 +55,14 @@ const createUser = (req, res, next) => {
     .catch((err) => {
       if (err.code === MONGO_DUPLICATE_ERROR_CODE) {
         next(new ConflictError('Пользователь с таким email уже зарегистрирован'));
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 
 const loginUser = (req, res, next) => {
   const { email, password } = req.body;
-
-  if (!email || !password) {
-    next(new ValidationError('Пароль и email обязательны!'));
-  }
   User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign(
