@@ -4,9 +4,10 @@ const bcrypt = require('bcryptjs');
 const { MONGO_DUPLICATE_ERROR_CODE, SALT_ROUNDS } = require('../utils/constants');
 const User = require('../models/user');
 
-const NotFoundError = require('../errors/notFoundError');
-const ConflictError = require('../errors/conflictError');
-const ValidationError = require('../errors/validationError');
+const { NotFoundError } = require('../errors/notFoundError');
+const { ConflictError } = require('../errors/conflictError');
+const { ValidationError } = require('../errors/validationError');
+const { AuthError } = require('../errors/authError');
 
 const getProfile = (req, res, next) => {
   User.findById(req.user._id)
@@ -32,7 +33,9 @@ const updateProfile = (req, res, next) => {
       }
       res.send({ name: user.name, email: user.email });
     })
-    .catch((err) => next(err));
+    .catch(() => {
+      next(new ConflictError('Пользователь с таким email уже зарегистрирован'));
+    });
 };
 
 const createUser = (req, res, next) => {
@@ -72,8 +75,8 @@ const loginUser = (req, res, next) => {
       );
       return res.send({ token });
     })
-    .catch((err) => {
-      next(err);
+    .catch(() => {
+      next(new AuthError('неверный email или пароль!'));
     });
 };
 

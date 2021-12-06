@@ -6,7 +6,7 @@ const helmet = require('helmet');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
-const DB_ADDRESS = require('./utils/constants');
+const { DB_ADDRESS } = require('./utils/constants');
 const limiter = require('./utils/rateLimiter');
 const { apiLogger, errLogger } = require('./middlewares/logger');
 const handlerError = require('./errors/handlerError');
@@ -18,13 +18,10 @@ const app = express();
 app.use(helmet());
 app.use(cors());
 
-mongoose.connect(
-  DB_ADDRESS,
-  async (err) => {
-    if (err) throw err;
-    console.log('connected to db');
-  },
-);
+mongoose.connect(DB_ADDRESS, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
