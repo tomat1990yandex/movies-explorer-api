@@ -15,6 +15,19 @@ const cookieConfig = {
   sameSite: true,
 };
 
+const corsConfig = {
+  origin: [
+    'http://localhost:3000',
+    'https://api.diminenn-me.students.nomoredomains.rocks',
+    'https://diminenn-me.students.nomoredomains.rocks',
+  ],
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
+  credentials: true,
+};
+
 module.exports = {
   SECRET_KEY_DEV,
   PORT,
@@ -22,4 +35,5 @@ module.exports = {
   JWT_SECRET,
   MONGO_URL,
   cookieConfig,
+  corsConfig,
 };
