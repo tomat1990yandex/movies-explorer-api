@@ -1,20 +1,26 @@
 const router = require('express').Router();
-const userRoutes = require('./users');
-const moviesRoutes = require('./movies');
+const { celebrate } = require('celebrate');
+
+const SearchError = require('../errors/search-err');
+
+const { signupJoiObj, signinJoiObj } = require('../utils/utils');
+
 const auth = require('../middlewares/auth');
 
-const { createUser, loginUser } = require('../controllers/usersController');
+const { createUser, login, logout } = require('../controllers/users');
 
-const NotFoundError = require('../errors/notFoundError');
-const { signupValidate, signinValidate } = require('../middlewares/validate');
+const userRouter = require('./users');
+const movieRouter = require('./movies');
 
-router.post('/signin', signinValidate, loginUser);
-router.post('/signup', signupValidate, createUser);
+router.post('/signup', celebrate({ body: signupJoiObj }), createUser);
+router.post('/signin', celebrate({ body: signinJoiObj }), login);
+router.post('/signout', auth, logout);
 
-router.use('/', auth, userRoutes, moviesRoutes);
+router.use('/users', auth, userRouter);
+router.use('/movies', auth, movieRouter);
 
-router.all('/*', () => {
-  throw new NotFoundError('Страница не найдена');
+router.use('*', auth, () => {
+  throw new SearchError('Страницы по запрашиваемому адресу не существует');
 });
 
 module.exports = router;

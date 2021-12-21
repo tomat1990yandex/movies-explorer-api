@@ -1,9 +1,12 @@
-const router = require('express').Router();
-const { getProfile, updateProfile } = require('../controllers/usersController');
-const { patchUserValidate } = require('../middlewares/validate');
+const userRouter = require('express').Router();
+const { celebrate } = require('celebrate');
 
-router.get('/users/me', getProfile);
+const { updateUserJoiObj } = require('../utils/utils');
 
-router.patch('/users/me', patchUserValidate, updateProfile);
+const { getUserInfo, updateUser } = require('../controllers/users');
 
-module.exports = router;
+userRouter.get('/me', getUserInfo);
+
+userRouter.patch('/me', celebrate({ body: updateUserJoiObj }), updateUser);
+
+module.exports = userRouter;

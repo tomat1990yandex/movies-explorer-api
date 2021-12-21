@@ -1,82 +1,77 @@
 const mongoose = require('mongoose');
+const { linkRegex } = require('../utils/utils');
 
-const linkRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\\+~#=]+\.[a-zA-Z0-9()]+([-a-zA-Z0-9()@:%_\\+.~#?&/=#]*)/;
-
-const movieSchema = new mongoose.Schema(
-  {
-    country: {
-      required: true,
-      type: String,
-    },
-    director: {
-      required: true,
-      type: String,
-    },
-    duration: {
-      required: true,
-      type: Number,
-    },
-    year: {
-      required: true,
-      type: String,
-    },
-    description: {
-      required: true,
-      type: String,
-    },
-    image: {
-      required: true,
-      type: String,
-      validate: {
-        validator(link) {
-          return linkRegex.test(link);
-        },
-        message: 'Введите корректный URL изображения',
-      },
-    },
-    trailer: {
-      required: true,
-      type: String,
-      validate: {
-        validator(link) {
-          return linkRegex.test(link);
-        },
-        message: 'Введите корректный URL трейлера',
-      },
-    },
-    thumbnail: {
-      required: true,
-      type: String,
-      validate: {
-        validator(link) {
-          return linkRegex.test(link);
-        },
-        message: 'Введите корректный URL изображения',
-      },
-    },
-    owner: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: 'user',
-      select: false,
-    },
-    movieId: {
-      required: true,
-      type: Number,
-    },
-    nameRU: {
-      require: true,
-      type: String,
-      minlength: 1,
-      maxlength: 100,
-    },
-    nameEN: {
-      require: true,
-      type: String,
-      minlength: 1,
-      maxlength: 100,
+const movieSchema = new mongoose.Schema({
+  country: {
+    type: String,
+    required: true,
+    minlength: 2,
+    maxlength: 30,
+  },
+  director: {
+    type: String,
+    required: true,
+    minlength: 2,
+    maxlength: 30,
+  },
+  duration: {
+    type: Number,
+    required: true,
+  },
+  year: {
+    type: String,
+    required: true,
+    minlength: 4,
+    maxlength: 4,
+  },
+  description: {
+    type: String,
+    required: true,
+    minlength: 1,
+  },
+  image: {
+    type: String,
+    required: true,
+    validate: {
+      validator: (v) => linkRegex.test(v),
+      message: 'Необходимо передать ссылку',
     },
   },
-);
+  trailer: {
+    type: String,
+    required: true,
+    validate: {
+      validator: (v) => linkRegex.test(v),
+      message: 'Необходимо передать ссылку',
+    },
+  },
+  thumbnail: {
+    type: String,
+    required: true,
+    validate: {
+      validator: (v) => linkRegex.test(v),
+      message: 'Необходимо передать ссылку',
+    },
+  },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
+    required: true,
+  },
+  movieId: {
+    type: Number,
+    required: true,
+  },
+  nameRU: {
+    type: String,
+    required: true,
+    minlength: 2,
+  },
+  nameEN: {
+    type: String,
+    required: true,
+    minlength: 2,
+  },
+});
 
 module.exports = mongoose.model('movie', movieSchema);

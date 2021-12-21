@@ -1,15 +1,14 @@
-const router = require('express').Router();
-const {
-  getMovies,
-  createMovie,
-  deleteMovie,
-} = require('../controllers/moviesController');
-const { moviesValidate, movieIdValidate } = require('../middlewares/validate');
+const movieRouter = require('express').Router();
+const { celebrate } = require('celebrate');
 
-router.get('/movies', getMovies);
+const { createMovieJoiObj, findMovieJoiObj } = require('../utils/utils');
 
-router.post('/movies', moviesValidate, createMovie);
+const { getMovies, createMovie, deleteMovie } = require('../controllers/movies');
 
-router.delete('/movies/:movieId', movieIdValidate, deleteMovie);
+movieRouter.get('/', getMovies);
 
-module.exports = router;
+movieRouter.post('/', celebrate({ body: createMovieJoiObj }), createMovie);
+
+movieRouter.delete('/:movieId', celebrate({ params: findMovieJoiObj }), deleteMovie);
+
+module.exports = movieRouter;
