@@ -20,6 +20,8 @@ const routes = require('./routes');
 
 mongoose.connect(MONGO_URL, {
   useNewUrlParser: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
   useUnifiedTopology: true,
 });
 
