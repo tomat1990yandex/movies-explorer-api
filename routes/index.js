@@ -19,7 +19,7 @@ router.post('/signout', auth, logout);
 router.use('/users', auth, userRouter);
 router.use('/movies', auth, movieRouter);
 
-router.use('*', auth, () => {
+router.use('/*', auth, () => {
   throw new SearchError('Страницы по запрашиваемому адресу не существует');
 });
 
