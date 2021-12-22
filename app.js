@@ -8,7 +8,7 @@ const cors = require('cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const {
-  PORT, MONGO_URL,
+  PORT, MONGO_URL, corsConfig,
 } = require('./utils/config');
 
 const handleFinalErrors = require('./middlewares/errors-handler');
@@ -26,7 +26,7 @@ mongoose.connect(MONGO_URL, {
 
 const app = express();
 
-app.use(cors());
+app.use('*', cors(corsConfig));
 app.use(helmet());
 
 app.use(cookieParser());
