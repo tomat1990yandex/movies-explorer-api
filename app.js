@@ -1,10 +1,10 @@
-require('dotenv').config();
-
 const express = require('express');
-const cors = require('cors');
 const mongoose = require('mongoose');
+const helmet = require('helmet');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
+const cors = require('cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const {
@@ -27,6 +27,10 @@ mongoose.connect(MONGO_URL, {
 const app = express();
 
 app.use(cors());
+app.use(helmet());
+
+app.use(cookieParser());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

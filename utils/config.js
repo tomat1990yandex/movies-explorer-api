@@ -1,11 +1,11 @@
 require('dotenv').config();
 
-const JWT_SECRET_KEY = 'dev-secret';
+const SECRET_KEY_DEV = 'secret-key';
 
 const {
   PORT = 3000,
-  NODE_ENV = 'production',
-  JWT_SECRET = JWT_SECRET_KEY,
+  NODE_ENV = 'development',
+  JWT_SECRET = SECRET_KEY_DEV,
   MONGO_URL = 'mongodb://localhost:27017/moviesdb',
 } = process.env;
 
@@ -16,7 +16,7 @@ const cookieConfig = {
 };
 
 module.exports = {
-  JWT_SECRET_KEY,
+  SECRET_KEY_DEV,
   PORT,
   NODE_ENV,
   JWT_SECRET,
