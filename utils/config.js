@@ -9,11 +9,11 @@ const {
   MONGO_URL = 'mongodb://localhost:27017/moviesdb',
 } = process.env;
 
-const cookieConfig = {
-  maxAge: 3600000,
-  httpOnly: true,
-  // sameSite: true,
-};
+// const cookieConfig = {
+//   maxAge: 3600000,
+//   httpOnly: true,
+//   // sameSite: true,
+// };
 
 module.exports = {
   SECRET_KEY_DEV,
@@ -21,5 +21,5 @@ module.exports = {
   NODE_ENV,
   JWT_SECRET,
   MONGO_URL,
-  cookieConfig,
+  // cookieConfig,
 };

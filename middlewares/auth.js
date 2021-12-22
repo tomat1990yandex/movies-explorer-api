@@ -5,7 +5,7 @@ const { JWT_SECRET } = require('../utils/config');
 const AuthError = require('../errors/auth-err');
 
 module.exports = (req, res, next) => {
-  const { token } = req.cookies;
+  const { token } = req.headers;
 
   if (!token) {
     throw new AuthError('Необходима авторизация');
