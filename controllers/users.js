@@ -3,7 +3,9 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 
-const { NODE_ENV, JWT_SECRET } = require('../utils/config');
+const {
+  SECRET_KEY_DEV, NODE_ENV, JWT_SECRET, cookieConfig,
+} = require('../utils/config');
 
 const { messages } = require('../utils/utils');
 
@@ -99,27 +101,24 @@ async function createUser(req, res, next) {
   }
 }
 
-function login(req, res, next) {
-  const {
-    email,
-    password,
-  } = req.body;
-  User.findUserByCredentials(email, password)
-    .then((user) => {
-      const token = jwt.sign(
-        { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
-        { expiresIn: '7d' },
-      );
-      return res.send({ token });
-    })
-    .catch(() => {
-      next(new AuthError(userAuth));
-    });
+async function login(req, res, next) {
+  const { email, password } = req.body;
+  let user;
+
+  try {
+    user = await User.findUserByCredentials(email, password);
+
+    const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : SECRET_KEY_DEV, { expiresIn: '7d' });
+
+    res.cookie('token', token, cookieConfig).send({ message: `Добро пожаловать, ${user.name}!` });
+  } catch (e) {
+    const error = new AuthError(userAuth);
+    next(error);
+  }
 }
 
 function logout(req, res) {
-  return res.removeItem('token').send({ message: 'Вы вышли из личного кабинета.' });
+  return res.clearCookie('token').send({ message: 'Вы вышли из личного кабинета.' });
 }
 
 module.exports = {
