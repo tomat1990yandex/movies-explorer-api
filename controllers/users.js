@@ -110,7 +110,7 @@ async function login(req, res, next) {
 
     const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
 
-    res.status(200).send(token);
+    res.status(200).send({ token });
   } catch (e) {
     const error = new AuthError(userAuth);
     next(error);
