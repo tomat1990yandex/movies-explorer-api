@@ -14,11 +14,11 @@ const mongoConfig = {
   useUnifiedTopology: true,
 };
 
-const cookieConfig = {
-  maxAge: 3600000,
-  httpOnly: true,
-  sameSite: true,
-};
+// const cookieConfig = {
+//   maxAge: 3600000,
+//   httpOnly: true,
+//   sameSite: true,
+// };
 
 // const corsConfig = {
 //   origin: [
@@ -39,6 +39,6 @@ module.exports = {
   JWT_SECRET,
   MONGO_URL,
   mongoConfig,
-  cookieConfig,
+  // cookieConfig,
   // corsConfig,
 };

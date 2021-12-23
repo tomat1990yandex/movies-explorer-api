@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 const {
-  NODE_ENV, JWT_SECRET, cookieConfig,
+  NODE_ENV, JWT_SECRET,
 } = require('../utils/config');
 
 const { messages } = require('../utils/utils');
@@ -110,7 +110,7 @@ async function login(req, res, next) {
 
     const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
 
-    res.cookie('token', token, cookieConfig).send({ message: `Добро пожаловать, ${user.name}!` });
+    res.status(200).send(token);
   } catch (e) {
     const error = new AuthError(userAuth);
     next(error);
