@@ -117,14 +117,9 @@ async function login(req, res, next) {
   }
 }
 
-function logout(req, res) {
-  return res.clearCookie('token').send({ message: 'Вы вышли из личного кабинета.' });
-}
-
 module.exports = {
   getUserInfo,
   updateUser,
   createUser,
   login,
-  logout,
 };
