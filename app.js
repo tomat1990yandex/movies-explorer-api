@@ -7,7 +7,7 @@ const { errors } = require('celebrate');
 const cors = require('cors');
 
 const {
-  PORT, MONGO_URL, mongoConfig, corsConfig,
+  PORT, MONGO_URL, mongoConfig,
 } = require('./utils/config');
 
 const handleFinalErrors = require('./middlewares/errors-handler');
@@ -22,7 +22,8 @@ mongoose.connect(MONGO_URL, mongoConfig);
 
 const app = express();
 
-app.use('*', cors(corsConfig));
+// app.use('*', cors(corsConfig));
+app.use(cors());
 
 app.use(helmet());
 

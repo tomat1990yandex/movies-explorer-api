@@ -20,18 +20,18 @@ const cookieConfig = {
   sameSite: true,
 };
 
-const corsConfig = {
-  origin: [
-    'http://localhost:3000',
-    'https://api.diminenn-me.students.nomoredomains.rocks/',
-    'https://diminenn-me.students.nomoredomains.rocks/',
-  ],
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
-  credentials: true,
-};
+// const corsConfig = {
+//   origin: [
+//     'http://localhost:3000',
+//     'https://api.diminenn-me.students.nomoredomains.rocks/',
+//     'https://diminenn-me.students.nomoredomains.rocks/',
+//   ],
+//   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+//   preflightContinue: false,
+//   optionsSuccessStatus: 204,
+//   allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
+//   credentials: true,
+// };
 
 module.exports = {
   PORT,
@@ -40,5 +40,5 @@ module.exports = {
   MONGO_URL,
   mongoConfig,
   cookieConfig,
-  corsConfig,
+  // corsConfig,
 };
