@@ -14,7 +14,6 @@ const movieRouter = require('./movies');
 
 router.post('/signup', celebrate({ body: signupJoiObj }), createUser);
 router.post('/signin', celebrate({ body: signinJoiObj }), login);
-router.post('/signout', auth, logout);
 
 router.use('/users', auth, userRouter);
 router.use('/movies', auth, movieRouter);
